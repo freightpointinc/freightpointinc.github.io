@@ -1,79 +1,661 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>FreightPoint Inc.</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FreightPoint Inc. | Freight Brokerage</title>
+  <meta name="description" content="FreightPoint Inc. — dependable spot and overflow freight coverage with clear communication and consistent execution." />
+  <meta name="theme-color" content="#0b5a2a" />
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    :root{
+      --green-900:#08361a;
+      --green-800:#0b4a23;
+      --green-700:#0e5d2d;
+      --green-600:#137437;
+      --sky-100:#e8f6ff;
+      --ink:#0b1220;
+      --muted:#536174;
+      --card:#ffffff;
+      --line:rgba(11,74,35,.14);
+      --shadow: 0 16px 45px rgba(5, 20, 10, .14);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--ink);
+      background:
+        radial-gradient(900px 520px at 20% 0%, rgba(232,246,255,.85), transparent 60%),
+        radial-gradient(900px 520px at 90% 10%, rgba(19,116,55,.18), transparent 55%),
+        linear-gradient(180deg, #ffffff 0%, #fbfffc 100%);
+    }
+
+    .topbar{
+      background: var(--green-800);
+      color:#fff;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      position: sticky;
+      top:0;
+      z-index: 50;
+    }
+
+    .container{
+      width:min(1100px, 92vw);
+      margin:0 auto;
+    }
+
+    .topbar__inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color:#fff;
+    }
+
+    .brand img{
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      object-fit:cover;
+      border: 2px solid rgba(255,255,255,.28);
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      background:#fff;
+    }
+
+    .brand__stack{
+      line-height:1.1;
+    }
+    .brand__name{
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+    .brand__tag{
+      font-size:12px;
+      opacity:.9;
+      letter-spacing:.8px;
+      text-transform: uppercase;
+    }
+
+    .nav{
+      display:flex;
+      gap:16px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .nav a{
+      color: rgba(255,255,255,.95);
+      text-decoration:none;
+      font-weight: 750;
+      font-size:14px;
+      padding:8px 10px;
+      border-radius: 999px;
+    }
+    .nav a:hover{
+      background: rgba(255,255,255,.12);
+    }
+
+    .hero{
+      padding: 46px 0 24px;
+    }
+
+    .hero__grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 26px;
+      align-items:center;
+    }
+
+    .pill{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      font-size:12px;
+      font-weight: 850;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      color: var(--green-700);
+      background: rgba(19,116,55,.10);
+      border: 1px solid rgba(19,116,55,.18);
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(34px, 4.2vw, 52px);
+      line-height:1.05;
+      letter-spacing:-.6px;
+    }
+
+    .sub{
+      margin:0 0 18px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 60ch;
+    }
+
+    .ctaRow{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin: 12px 0 10px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      text-decoration:none;
+      border: 1px solid transparent;
+      transition: transform .06s ease, background .2s ease, border .2s ease;
+      user-select:none;
+      cursor:pointer;
+      min-width: 210px;
+    }
+    .btn:active{ transform: translateY(1px); }
+
+    .btn--primary{
+      background: linear-gradient(180deg, var(--green-600), var(--green-700));
+      color:#fff;
+      box-shadow: 0 14px 30px rgba(14,93,45,.22);
+      border-color: rgba(255,255,255,.10);
+    }
+    .btn--primary:hover{
+      background: linear-gradient(180deg, var(--green-600), var(--green-800));
+    }
+    .btn--ghost{
+      background: rgba(255,255,255,.82);
+      color: var(--green-800);
+      border-color: rgba(11,74,35,.22);
+    }
+    .btn--ghost:hover{
+      background: rgba(255,255,255,.96);
+    }
+
+    .miniBadges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .miniBadge{
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--green-800);
+      background: rgba(232,246,255,.70);
+      border: 1px solid rgba(11,74,35,.14);
+      padding: 8px 10px;
+      border-radius: 999px;
+    }
+
+    .logoCard{
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.70));
+      border: 1px solid rgba(11,74,35,.18);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      text-align:center;
+    }
+    .logoCard img{
+      width:min(330px, 100%);
+      border-radius: 18px;
+      border: 1px solid rgba(11,74,35,.14);
+      background:#fff;
+    }
+    .logoCard__note{
+      margin-top: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      line-height:1.45;
+    }
+
+    .section{
+      padding: 54px 0;
+    }
+
+    .section--alt{
+      background: linear-gradient(180deg, rgba(8,54,26,.05), rgba(232,246,255,.22));
+      border-top: 1px solid rgba(11,74,35,.10);
+      border-bottom: 1px solid rgba(11,74,35,.10);
+    }
+
+    .sectionHead{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom: 18px;
+    }
+    .sectionHead h2{
+      margin:0;
+      font-size: 28px;
+      letter-spacing:-.2px;
+    }
+    .sectionHead p{
+      margin:0;
+      color: var(--muted);
+      max-width: 60ch;
+      line-height:1.55;
+      font-weight:650;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 10px 26px rgba(0,0,0,.06);
+    }
+    .card h3{
+      margin: 0 0 8px;
+      font-size: 18px;
+      letter-spacing:-.1px;
+    }
+    .card p{
+      margin:0;
+      color: var(--muted);
+      line-height:1.6;
+      font-weight:650;
+    }
+
+    .labelGrid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .labelGrid--2{
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 820px;
+    }
+
+    .labelTile{
+      background: linear-gradient(180deg, rgba(255,255,255,.93), rgba(255,255,255,.74));
+      border: 1px solid rgba(11,74,35,.14);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.05);
+    }
+    .labelTitle{
+      font-weight: 950;
+      letter-spacing:.2px;
+      color: var(--green-800);
+    }
+    .labelSub{
+      margin-top: 6px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
+      line-height:1.35;
+    }
+    .equipTile{
+      background: linear-gradient(180deg, rgba(232,246,255,.65), rgba(255,255,255,.78));
+    }
+
+    .capRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .cap{
+      font-weight: 900;
+      font-size: 13px;
+      color: #ffffff;
+      background: linear-gradient(180deg, var(--green-700), var(--green-900));
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .steps{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .step{
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(11,74,35,.14);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.05);
+    }
+    .stepNum{
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(19,116,55,.14);
+      border: 1px solid rgba(19,116,55,.25);
+      color: var(--green-800);
+      font-weight: 950;
+      margin-bottom: 10px;
+    }
+    .step h3{
+      margin: 0 0 6px;
+      font-size: 18px;
+    }
+    .step p{
+      margin:0;
+      color: var(--muted);
+      line-height:1.55;
+      font-weight:650;
+    }
+
+    .contactBox{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,.85);
+      border: 1px solid rgba(11,74,35,.14);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .contactSub{
+      color: var(--muted);
+      margin: 8px 0 14px;
+      line-height:1.55;
+      font-weight:650;
+    }
+    .contactActions{
+      display:flex;
+      gap: 12px;
+      flex-wrap:wrap;
+      margin-bottom: 14px;
+    }
+    .contactDetails{
+      color: var(--muted);
+      line-height:1.7;
+      font-weight: 700;
+    }
+    .contactMini{
+      background: rgba(232,246,255,.55);
+      border: 1px solid rgba(11,74,35,.12);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .contactMini__title{
+      font-weight: 950;
+      color: var(--green-800);
+      margin-bottom: 8px;
+    }
+    ul{
       margin: 0;
-      text-align: center;
-      background: #f4f9f6;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 700;
     }
 
-    header {
-      background: #0b5a2a;
-      padding: 20px;
-      color: white;
+    .footer{
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(11,74,35,.10);
+      color: rgba(11,18,32,.65);
+      font-weight: 650;
+      font-size: 13px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:space-between;
     }
 
-    img {
-      width: 250px;
-      margin-top: 20px;
-    }
-
-    section {
-      padding: 40px 20px;
-    }
-
-    .button {
-      display: inline-block;
-      margin: 10px;
-      padding: 12px 20px;
-      background: #137437;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-
-    .button:hover {
-      background: #0b5a2a;
+    @media (max-width: 920px){
+      .nav{display:none;}
+      .hero__grid{grid-template-columns: 1fr;}
+      .cards{grid-template-columns: 1fr;}
+      .labelGrid{grid-template-columns: 1fr;}
+      .labelGrid--2{grid-template-columns: 1fr; max-width: 100%;}
+      .steps{grid-template-columns: 1fr;}
+      .contactBox{grid-template-columns: 1fr;}
+      .btn{min-width: 100%;}
     }
   </style>
 </head>
+
 <body>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a class="brand" href="#top">
+        <img src="FreightPoint Logo.png" alt="FreightPoint Inc. logo" />
+        <div class="brand__stack">
+          <div class="brand__name">FreightPoint Inc.</div>
+          <div class="brand__tag">Freight Brokerage</div>
+        </div>
+      </a>
 
-<header>
-  <h1>FreightPoint Inc.</h1>
-  <p>Freight Brokerage</p>
-</header>
+      <nav class="nav">
+        <a href="#services">Services</a>
+        <a href="#tech">Technology</a>
+        <a href="#how">How It Works</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-<img src="FreightPoint Logo.png">
+  <main id="top">
+    <section class="hero">
+      <div class="container hero__grid">
+        <div>
+          <div class="pill">Fresno, CA • Serving nationwide lanes</div>
+          <h1>Dependable freight coverage.<br/>Clear communication.</h1>
+          <p class="sub">
+            FreightPoint Inc. is a freight brokerage focused on spot and overflow coverage with disciplined execution,
+            proactive updates, and clean documentation.
+          </p>
 
-<section>
-  <h2>Equipment</h2>
-  <p>Dry Van • Reefer</p>
-</section>
+          <div class="ctaRow">
+            <a class="btn btn--primary" href="mailto:manrajs@freightpointinc.com?subject=Freight%20Request%20-%20FreightPoint%20Inc.">
+              Shippers / Customers
+            </a>
+            <a class="btn btn--ghost" href="mailto:dispatch@freightpointinc.com?subject=Carrier%20Inquiry%20-%20FreightPoint%20Inc.">
+              Carriers / Truckers
+            </a>
+          </div>
 
-<section>
-  <h2>Technology</h2>
-  <p>PowerDat • Truckstop • Truckstop TMS</p>
-</section>
+          <div class="miniBadges">
+            <span class="miniBadge">Fast Responses</span>
+            <span class="miniBadge">Transparent Updates</span>
+            <span class="miniBadge">Documentation Handling</span>
+          </div>
+        </div>
 
-<section>
-  <h2>Contact</h2>
-  <a class="button" href="mailto:manrajs@freightpointinc.com">
-    Shippers / Customers
-  </a>
+        <div class="logoCard">
+          <img src="FreightPoint Logo.png" alt="FreightPoint Inc. logo large" />
+          <div class="logoCard__note">
+            Professional, consistent, and responsive—built for long-term logistics relationships.
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <a class="button" href="mailto:dispatch@freightpointinc.com">
-    Carriers / Truckers
-  </a>
+    <section id="services" class="section">
+      <div class="container">
+        <div class="sectionHead">
+          <h2>Services</h2>
+          <p>Simple brokerage support, executed cleanly.</p>
+        </div>
 
-  <p>Phone: 951-568-6484</p>
-  <p>PO Box 25733, Fresno CA 93729</p>
-</section>
+        <div class="cards">
+          <div class="card">
+            <h3>Spot Freight</h3>
+            <p>Quick coverage for time-sensitive shipments with clear updates from pickup through delivery.</p>
+          </div>
+          <div class="card">
+            <h3>Overflow Coverage</h3>
+            <p>Additional capacity support when lanes tighten or volume spikes unexpectedly.</p>
+          </div>
+          <div class="card">
+            <h3>Broker-to-Broker</h3>
+            <p>Professional execution for partner freight with consistent communication and documentation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <section id="tech" class="section section--alt">
+      <div class="container">
+        <div class="sectionHead">
+          <h2>Technology & Tools</h2>
+          <p>TA-style “labels” so partners immediately understand your workflow.</p>
+        </div>
+
+        <div class="labelGrid">
+          <div class="labelTile">
+            <div class="labelTitle">PowerDat</div>
+            <div class="labelSub">Credit & payment visibility</div>
+          </div>
+          <div class="labelTile">
+            <div class="labelTitle">Truckstop</div>
+            <div class="labelSub">Capacity access & posting</div>
+          </div>
+          <div class="labelTile">
+            <div class="labelTitle">Truckstop TMS</div>
+            <div class="labelSub">Operations & workflow management</div>
+          </div>
+        </div>
+
+        <div class="capRow">
+          <div class="cap">Carrier Vetting</div>
+          <div class="cap">Real-Time Updates</div>
+          <div class="cap">POD Handling</div>
+          <div class="cap">Responsive Communication</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="equipment">
+      <div class="container">
+        <div class="sectionHead">
+          <h2>Equipment Supported</h2>
+          <p>Focused and straightforward—what you actually move.</p>
+        </div>
+
+        <div class="labelGrid labelGrid--2">
+          <div class="labelTile equipTile">
+            <div class="labelTitle">Dry Van</div>
+            <div class="labelSub">General freight</div>
+          </div>
+          <div class="labelTile equipTile">
+            <div class="labelTitle">Reefer</div>
+            <div class="labelSub">Temperature-controlled freight</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="section section--alt">
+      <div class="container">
+        <div class="sectionHead">
+          <h2>How It Works</h2>
+          <p>Clear steps. No confusion.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="stepNum">1</div>
+            <h3>Send shipment details</h3>
+            <p>Origin, destination, pickup date, equipment, commodity, weight, and any special requirements.</p>
+          </div>
+          <div class="step">
+            <div class="stepNum">2</div>
+            <h3>We cover the load</h3>
+            <p>We source capacity, confirm details, and provide clear expectations before pickup.</p>
+          </div>
+          <div class="step">
+            <div class="stepNum">3</div>
+            <h3>Track + close out</h3>
+            <p>Proactive updates through transit and clean documentation/POD at delivery.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="contactBox">
+          <div>
+            <h2>Contact</h2>
+            <p class="contactSub">
+              Use the correct inbox so your message gets handled quickly.
+            </p>
+
+            <div class="contactActions">
+              <a class="btn btn--primary" href="mailto:manrajs@freightpointinc.com?subject=Freight%20Request%20-%20FreightPoint%20Inc.">
+                Shippers / Customers
+              </a>
+              <a class="btn btn--ghost" href="mailto:dispatch@freightpointinc.com?subject=Carrier%20Inquiry%20-%20FreightPoint%20Inc.">
+                Carriers / Truckers
+              </a>
+            </div>
+
+            <div class="contactDetails">
+              <div><strong>Phone:</strong> 951-568-6484</div>
+              <div><strong>Mail:</strong> PO Box 25733, Fresno, CA 93729</div>
+              <div><strong>Website:</strong> freightpointinc.com</div>
+              <div style="margin-top:10px; font-size:13px; opacity:.85;">
+                Note: Do not send personal or sensitive information via email. For urgent time-sensitive freight, call.
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="contactMini">
+              <div class="contactMini__title">Shippers / Customers</div>
+              <ul>
+                <li>Lane, dates, equipment</li>
+                <li>Commodity & weight</li>
+                <li>Any appointment requirements</li>
+              </ul>
+            </div>
+
+            <div class="contactMini">
+              <div class="contactMini__title">Carriers / Truckers</div>
+              <ul>
+                <li>Truck info & availability</li>
+                <li>Equipment type (DV / Reefer)</li>
+                <li>Preferred lanes</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div>© <span id="y"></span> FreightPoint Inc.</div>
+          <div>Professional freight brokerage services</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
